@@ -1,0 +1,26 @@
+{
+  "name": "koa-validator",
+  "version": "0.0.1",
+  "description": "Koa2 validation middleware",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/belichuk/koa-validator.git"
+  },
+  "keywords": [
+    "koa",
+    "validator"
+  ],
+  "author": "Nikolay Belichuk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/belichuk/koa-validator/issues"
+  },
+  "homepage": "https://github.com/belichuk/koa-validator#readme",
+  "devDependencies": {
+    "jasmine": "^3.0.0"
+  }
+}
