@@ -91,4 +91,22 @@ describe('Initialize', () => {
 		expect(errors[0].value).toBe(void(0));
 	});
 	
+	it('It should be valid if the length of the string matches', () => {
+		let errors = validate({user: 'guest'}, {user: string().length(5)}, options);
+		
+		expect(errors.length).toBe(0);
+	});
+	
+	it('It should be invalid if the length of the string does not match', () => {
+		[1,2,3,4,/* no 5 */, 6,7,8,9].forEach((len) => {
+			let errors = validate({user: 'guest'}, {user: string().length(len)}, options);
+			
+			expect(errors.length).toBe(1);
+			expect(errors[0].type).toBe('length');
+			expect(errors[0].field).toBe('user');
+			expect(errors[0].value).toBe('guest');
+			expect(errors[0].args[0]).toBe(len);
+		});
+	});
+	
 });

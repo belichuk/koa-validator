@@ -29,6 +29,15 @@ class StringValidator extends BaseValidator {
 			'max'
 		);
 	}
+	
+	length(limit) {
+		return this.addRule(
+			(limit, value) => value.length === limit,
+			[limit],
+			'Field length is not equal ${0}',
+			'length'
+		);
+	}
 }
 
 module.exports = () => new StringValidator();
