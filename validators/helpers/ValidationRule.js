@@ -1,9 +1,10 @@
 class Rule {
-	constructor(fn, args = [], msg = '', type = 'custom') {
+	constructor(fn, args = [], msg = '', type = 'custom', abort = false) {
 		this.callback = fn;
 		this.setArgs(args)
 			.setType(type)
-			.setErrorMsg(msg);
+			.setErrorMsg(msg)
+			.abortOnError(abort);
 	}
 	
 	setType(type) {
@@ -18,6 +19,12 @@ class Rule {
 	
 	setErrorMsg(msg) {
 		this.errorMsg = msg;
+		return this;
+	}
+	
+	abortOnError(abort = false) {
+		this.abort = abort;
+		
 		return this;
 	}
 	

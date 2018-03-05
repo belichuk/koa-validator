@@ -1,11 +1,15 @@
 const BaseValidator = require('../helpers/BaseValidator');
 
 class StringValidator extends BaseValidator {
-	constructor(length) {
+	constructor() {
 		super('string');
-		this.addRule((value) => {
-			return typeof value === 'string';
-		});
+		this.addRule(
+			(value) => typeof value === 'string',
+			void 0,
+			'The field mast be a string',
+			'string',
+			true
+		);
 	}
 	
 	min(limit) {

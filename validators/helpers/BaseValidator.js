@@ -2,14 +2,44 @@ const Rule = require('./ValidationRule');
 
 class BaseValidator {
 	constructor(type = 'base') {
-		this.type = type;
-		this.rules = new Set();
+		this.setType(type)
+			.optional()
+			.init();
 	}
 	
-	addRule(fn, args, msg, type) {
-		const rule = new Rule(fn, args, msg, type);
+	init() {
+		this.rules = new Set();
+		
+		this.addRule(
+			value => this.isMandatory ? typeof value !== 'undefined' : true,
+			[],
+			'The field is required',
+			'required',
+			true
+		);
+		
+		return this;
+	}
+	
+	addRule(fn, args, msg, type = 'custom', abort = false) {
+		const rule = new Rule(fn, args)
+			.setErrorMsg(msg)
+			.setType(type)
+			.abortOnError(abort);
 		
 		this.rules.add(rule);
+		
+		return this;
+	}
+	
+	optional() {
+		this.isMandatory = false;
+		
+		return this;
+	}
+	
+	required() {
+		this.isMandatory = true;
 		
 		return this;
 	}
@@ -36,6 +66,12 @@ class BaseValidator {
 		return this;
 	}
 	
+	setType(type) {
+		this.type = type;
+		
+		return this;
+	}
+	
 	getType() {
 		return this.type;
 	}
@@ -43,14 +79,6 @@ class BaseValidator {
 	getRules() {
 		return this.rules.values();
 	}	
-		
-	required() {
-		this.custom(value => typeof value !== void 0)
-			.withType('required')
-			.withMessage('The field is required');
-		
-		return this;
-	}
 };
 
 module.exports = BaseValidator;
