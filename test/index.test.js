@@ -11,7 +11,6 @@ describe('Initialize', () => {
 		expect(errors).toBeArray();
 		expect(errors.length).toBe(1);
 		expect(errors[0].field).toBe('user');
-		expect(errors[0].type).toBe('required');
 		expect(errors[0].value).toBe(void(0));
 	});
 	
@@ -21,7 +20,6 @@ describe('Initialize', () => {
 		expect(errors).toBeArray();
 		expect(errors.length).toBe(1);
 		expect(errors[0].field).toBe('user');
-		expect(errors[0].type).toBe('string');
 		expect(errors[0].value).toBe(void(0));
 	});
 	
@@ -34,7 +32,6 @@ describe('Initialize', () => {
 			expect(errors).toBeArray();
 			expect(errors.length).toBe(1);
 			expect(errors[0].field).toBe('user');
-			expect(errors[0].type).toBe('string');
 			expect(errors[0].value).toBe(primitive);
 		});
 	});
@@ -45,7 +42,6 @@ describe('Initialize', () => {
 		expect(errors).toBeArray();
 		expect(errors.length).toBe(1);
 		expect(errors[0].field).toBe('user');
-		expect(errors[0].type).toBe('min');
 		expect(errors[0].value).toBe('guest');
 	});
 	
@@ -66,7 +62,6 @@ describe('Initialize', () => {
 		expect(errors).toBeArray();
 		expect(errors.length).toBe(1);
 		expect(errors[0].field).toBe('user');
-		expect(errors[0].type).toBe('min');
 		expect(errors[0].value).toBe('guest');
 	});
 	
@@ -86,7 +81,6 @@ describe('Initialize', () => {
 		
 		expect(errors).toBeArray();
 		expect(errors.length).toBe(1);
-		expect(errors[0].type).toBe('string');
 		expect(errors[0].field).toBe('uid');
 		expect(errors[0].value).toBe(void(0));
 	});
@@ -102,11 +96,24 @@ describe('Initialize', () => {
 			let errors = validate({user: 'guest'}, {user: string().length(len)}, options);
 			
 			expect(errors.length).toBe(1);
-			expect(errors[0].type).toBe('length');
 			expect(errors[0].field).toBe('user');
 			expect(errors[0].value).toBe('guest');
 			expect(errors[0].args[0]).toBe(len);
 		});
 	});
 	
+	it('It should be correct message with params', () => {
+		let min = 3;
+		let max = 10;
+		let schema = {
+			user: string()
+					.custom((value, min, max) => value.length > min && value.length < max, min, max)
+					.withMessage('The field length must be greater ${0} and less than ${1}')
+		};
+		let errors = validate({user: 'administrator'}, schema, options);
+		expect(errors.length).toBe(1);
+		expect(errors[0].field).toBe('user');
+		expect(errors[0].value).toBe('administrator');
+		expect(errors[0].message).toBe(`The field length must be greater ${min} and less than ${max}`);
+	});
 });

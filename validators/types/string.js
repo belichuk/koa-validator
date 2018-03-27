@@ -7,7 +7,6 @@ class StringValidator extends BaseValidator {
 			(value) => typeof value === 'string',
 			void 0,
 			'The field mast be a string',
-			'string',
 			true
 		);
 	}
@@ -16,8 +15,7 @@ class StringValidator extends BaseValidator {
 		return this.addRule(
 			(limit, value) => value.length >= limit,
 			[limit],
-			'Cannot be more than ${0}',
-			'min'
+			'Cannot be more than ${0}'
 		);
 	}
 	
@@ -25,8 +23,7 @@ class StringValidator extends BaseValidator {
 		return this.addRule(
 			(limit, value) => value.length <= limit,
 			[limit],
-			'Cannot be grate than ${0}',
-			'max'
+			'Cannot be grate than ${0}'
 		);
 	}
 	
@@ -34,8 +31,7 @@ class StringValidator extends BaseValidator {
 		return this.addRule(
 			(limit, value) => value.length === limit,
 			[limit],
-			'Field length is not equal ${0}',
-			'length'
+			'Field length is not equal ${0}'
 		);
 	}
 }

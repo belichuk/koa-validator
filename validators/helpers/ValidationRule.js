@@ -1,15 +1,9 @@
 class Rule {
-	constructor(fn, args = [], msg = '', type = 'custom', abort = false) {
+	constructor(fn, args = [], msg = '', abort = false) {
 		this.callback = fn;
 		this.setArgs(args)
-			.setType(type)
 			.setErrorMsg(msg)
 			.abortOnError(abort);
-	}
-	
-	setType(type) {
-		this.type = type;
-		return this;
 	}
 	
 	setArgs(args) {

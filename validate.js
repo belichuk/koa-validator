@@ -17,7 +17,6 @@ module.exports = (ctx, schema, options = {}) => {
 				if (!rule.validate(ctx[key])) {
 					let error = new Err(rule.errorMsg, {
 						args: rule.args,
-						type: rule.type,
 						value: ctx[key],
 						field: key
 					});

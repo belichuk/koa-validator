@@ -14,9 +14,9 @@ class ValidationError {
 	}
 	
 	toJSON() {
-		let {args, message, type, value, field} = this;
+		let {args, message, value, field} = this;
 		
-		return {args, message, type, value, field};
+		return {args, message, value, field};
 	}
 }
 

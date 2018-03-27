@@ -14,17 +14,15 @@ class BaseValidator {
 			value => this.isMandatory ? typeof value !== 'undefined' : true,
 			[],
 			'The field is required',
-			'required',
 			true
 		);
 		
 		return this;
 	}
 	
-	addRule(fn, args, msg, type = 'custom', abort = false) {
+	addRule(fn, args, msg, abort = false) {
 		const rule = new Rule(fn, args)
 			.setErrorMsg(msg)
-			.setType(type)
 			.abortOnError(abort);
 		
 		this.rules.add(rule);
@@ -46,14 +44,6 @@ class BaseValidator {
 	
 	custom(fn, ...args) {
 		this.addRule(fn, args, '', '');
-		
-		return this;
-	}
-	
-	withType(type) {
-		let lastRule = Array.from(this.rules).pop();
-		
-		lastRule && lastRule.setType(type);
 		
 		return this;
 	}
