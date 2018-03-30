@@ -111,9 +111,30 @@ describe('Initialize', () => {
 					.withMessage('The field length must be greater ${0} and less than ${1}')
 		};
 		let errors = validate({user: 'administrator'}, schema, options);
+
 		expect(errors.length).toBe(1);
 		expect(errors[0].field).toBe('user');
 		expect(errors[0].value).toBe('administrator');
 		expect(errors[0].message).toBe(`The field length must be greater ${min} and less than ${max}`);
+	});
+	
+	it('It should be proper regex validation', () => {
+		let httpUrl = 'http://github.com';
+		let falseErrors = validate({url: httpUrl}, {url: string().regex(/^http:\/\//)}, options);
+		let trueErrors = validate({url: httpUrl}, {url: string().regex(/^https:\/\//)}, options);
+		let badRegexErrors = validate({url: httpUrl}, {url: string().regex('^https:\/\/')}, options);
+		let goodRegexErrors = validate({url: httpUrl}, {url: string().regex(new RegExp('^http://'))}, options);
+
+		expect(falseErrors.length).toBe(0);
+		
+		expect(trueErrors.length).toBe(1);
+		expect(trueErrors[0].field).toBe('url');
+		expect(trueErrors[0].value).toBe(httpUrl);
+		
+		expect(badRegexErrors.length).toBe(1);
+		expect(badRegexErrors[0].field).toBe('url');
+		expect(badRegexErrors[0].value).toBe(httpUrl);
+		
+		expect(goodRegexErrors.length).toBe(0);
 	});
 });

@@ -13,7 +13,7 @@ class StringValidator extends BaseValidator {
 	
 	min(limit) {
 		return this.addRule(
-			(limit, value) => value.length >= limit,
+			(value, limit) => value.length >= limit,
 			[limit],
 			'Cannot be more than ${0}'
 		);
@@ -21,7 +21,7 @@ class StringValidator extends BaseValidator {
 	
 	max(limit) {
 		return this.addRule(
-			(limit, value) => value.length <= limit,
+			(value, limit) => value.length <= limit,
 			[limit],
 			'Cannot be grate than ${0}'
 		);
@@ -29,9 +29,16 @@ class StringValidator extends BaseValidator {
 	
 	length(limit) {
 		return this.addRule(
-			(limit, value) => value.length === limit,
+			(value , limit) => value.length === limit,
 			[limit],
 			'Field length is not equal ${0}'
+		);
+	}
+	
+	regex(pattern) {
+		return this.addRule(
+			(value, re) => (Object.prototype.toString.call(re) === '[object RegExp]' && re.test(value)),
+			[pattern]
 		);
 	}
 }

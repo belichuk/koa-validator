@@ -29,7 +29,7 @@ class Rule {
 			return false;
 		}
 		
-		let args = this.args.concat(value);
+		let args = [].concat(value, this.args);
 		
 		return validator.apply(validator, args);
 	}
