@@ -118,7 +118,7 @@ describe('Initialize', () => {
 		expect(errors[0].message).toBe(`The field length must be greater ${min} and less than ${max}`);
 	});
 	
-	it('It should be proper regex validation', () => {
+	it('It should be a valid verification of regex', () => {
 		let httpUrl = 'http://github.com';
 		let falseErrors = validate({url: httpUrl}, {url: string().regex(/^http:\/\//)}, options);
 		let trueErrors = validate({url: httpUrl}, {url: string().regex(/^https:\/\//)}, options);
@@ -136,5 +136,36 @@ describe('Initialize', () => {
 		expect(badRegexErrors[0].value).toBe(httpUrl);
 		
 		expect(goodRegexErrors.length).toBe(0);
+	});
+	
+	it('It should be a valid verification of alphanum', () => {
+		let trueErrors = validate({
+			user: '@dmin',
+			user2: 'admin!',
+			party: '5.10',
+			empty: ''
+		},
+		{
+			user: string().alphanum(),
+			user2: string().alphanum(),
+			party: string().alphanum(),
+			empty: string().alphanum()
+		},
+			options
+		);
+		
+		let falseErrors = validate({user: 'admin123'}, {user: string().alphanum()}, options);
+		
+		expect(falseErrors.length).toBe(0);
+		
+		expect(trueErrors.length).toBe(4);
+		expect(trueErrors[0].field).toBe('user');
+		expect(trueErrors[0].value).toBe('@dmin');
+		expect(trueErrors[1].field).toBe('user2');
+		expect(trueErrors[1].value).toBe('admin!');
+		expect(trueErrors[2].field).toBe('party');
+		expect(trueErrors[2].value).toBe('5.10');
+		expect(trueErrors[3].field).toBe('empty');
+		expect(trueErrors[3].value).toBe('');
 	});
 });

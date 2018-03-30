@@ -41,6 +41,10 @@ class StringValidator extends BaseValidator {
 			[pattern]
 		);
 	}
+	
+	alphanum() {
+		return this.addRule(value => /^[A-Za-z0-9]+$/.test(value));
+	}
 }
 
 module.exports = () => new StringValidator();
