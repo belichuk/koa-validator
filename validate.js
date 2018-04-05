@@ -1,5 +1,5 @@
 const utils = require('./utils/object');
-const BaseValidator = require('./validators/helpers/BaseValidator');
+const BaseValidator = require('./validators/types/base');
 const { object } = require('./validators');
 
 module.exports = (ctx, schema, options = {}) => {

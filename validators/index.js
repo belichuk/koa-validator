@@ -1,7 +1,9 @@
-const string =  require('./types/string');
-const object =  require('./types/object');
+const BaseValidator = require('./types/base');
+const StringValidator = require('./types/string');
+const ObjectValidator = require('./types/object');
 
 module.exports = {
-	string,
-	object
+	base: () => new BaseValidator(),
+	string: () => new StringValidator(),
+	object: rules => new ObjectValidator(rules)
 };

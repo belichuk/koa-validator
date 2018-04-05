@@ -1,6 +1,6 @@
 const utils = require('../../utils/object');
-const BaseValidator = require('../helpers/BaseValidator');
 const Err = require('../helpers/ValidationError');
+const BaseValidator = require('./base');
 
 class ObjectValidator extends BaseValidator {
 	constructor(rules) {
@@ -54,4 +54,4 @@ class ObjectValidator extends BaseValidator {
 
 }
 
-module.exports = rules => new ObjectValidator(rules);
+module.exports = ObjectValidator;

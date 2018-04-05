@@ -1,5 +1,5 @@
-const Rule = require('./ValidationRule');
-const Err = require('./ValidationError');
+const Rule = require('../helpers/ValidationRule');
+const Err = require('../helpers/ValidationError');
 
 class BaseValidator {
 	constructor(type = 'base') {

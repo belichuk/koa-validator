@@ -1,4 +1,4 @@
-const BaseValidator = require('../helpers/BaseValidator');
+const BaseValidator = require('./base');
 
 class StringValidator extends BaseValidator {
 	constructor() {
@@ -47,4 +47,4 @@ class StringValidator extends BaseValidator {
 	}
 }
 
-module.exports = () => new StringValidator();
+module.exports = StringValidator;
