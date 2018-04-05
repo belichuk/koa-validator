@@ -1,9 +1,10 @@
 const Rule = require('./ValidationRule');
+const Err = require('./ValidationError');
 
 class BaseValidator {
 	constructor(type = 'base') {
 		this.setType(type)
-			.optional()
+			.required()
 			.init();
 	}
 	
@@ -68,7 +69,34 @@ class BaseValidator {
 
 	getRules() {
 		return this.rules.values();
-	}	
+	}
+	
+	validate(value, options, field = null) {
+		let errors = [];
+		let [ ...rules ] = this.getRules();
+		
+		if (!this.isMandatory && typeof value === 'undefined') {
+			// no need to validate if value not passed and validation is optional
+			return [];
+		}
+		
+		for (let i = 0, len = rules.length; i < len; i++) {
+			if (!rules[i].validate(value)) {
+				errors.push(new Err(rules[i].errorMsg, {
+					args: rules[i].args,
+					value: value,
+					field: field || '_root'
+				}));
+				
+				// early exit in case of an breakable error
+				if (options.abortEarly || rules[i].abortOnError) {
+					return errors;
+				}
+			}
+		}
+
+		return errors;
+	}
 };
 
 module.exports = BaseValidator;

@@ -23,15 +23,13 @@ class Rule {
 	}
 	
 	validate(value) {
-		let validator = this.callback;
+		const { callback, args } = this;
 		
-		if (typeof validator !== 'function') {
+		if (typeof callback !== 'function') {
 			return false;
 		}
 		
-		let args = [].concat(value, this.args);
-		
-		return validator.apply(validator, args);
+		return callback.apply(null, [].concat(value, args));
 	}
 }
 
