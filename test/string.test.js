@@ -2,16 +2,16 @@ const validate = require('../validate');
 const { string } = require('../validators');
 const next = () => {};
 
-describe('Initialize', () => {
+describe('String validation:', () => {
 	let options = {abortEarly: false};
 	
-	it('It should be an error if mandatory field is not set', () => {
-		let errors = validate({}, {user: string().required()}, options);
+	it('It should be no error if field is optional ', () => {
+		let errors = validate({}, {user: string().optional()}, options);
 		
 		expect(errors).toBeArray();
-		expect(errors.length).toBe(1);
-		expect(errors[0].field).toBe('user');
-		expect(errors[0].value).toBe(void(0));
+		expect(errors.length).toBe(0);
+		// expect(errors[0].field).toBe('user');
+		// expect(errors[0].value).toBe(void(0));
 	});
 	
 	it('It should be an error if string field is not set', () => {
@@ -77,8 +77,8 @@ describe('Initialize', () => {
 	});
 	
 	it('It should be invalid when string field is not set but long validation', () => {
+		debugger;
 		let errors = validate({fake: 'test'}, {uid: string().min(3).max(10)}, options);
-		
 		expect(errors).toBeArray();
 		expect(errors.length).toBe(1);
 		expect(errors[0].field).toBe('uid');
