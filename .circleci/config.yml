@@ -14,8 +14,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: istanbul-npm
-          command: 'sudo npm install -g istanbul@latest'
+          name: coverage-dependencies-npm
+          command: 'sudo npm install -g istanbul@latest codecov'
 
       # Download and cache dependencies
       - restore_cache:
@@ -30,14 +30,11 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-        
-      # run tests!
-      - run: yarn test
 
-      # coverage
+      #  run tests && coverage
       - run:
           name: code-coverage
-          command: 'istanbul cover test/run.js -x "test/*" --report html --dir "./coverage"'
+          command: 'istanbul cover test/run.js -x "test/*" --report html --dir "./coverage" && codecov'
       - store_artifacts:
           path: coverage
           destination: coverage
