@@ -30,8 +30,8 @@ class ObjectValidator extends BaseValidator {
 			const diff = ctxKeys.filter(item => !~childKeys.indexOf(item));
 			
 			if (diff.length > 0) {
-				return [new Err('Fields are not allowed', {
-					args: diff,
+				return [new Err('${0} is not allowed', {
+					args: [diff.map(i => `"${i}"`).join(', ')],
 					value: ctx,
 					field: field || '_root'
 				})];
@@ -42,7 +42,6 @@ class ObjectValidator extends BaseValidator {
 		
 		if (!errors.length) {
 			utils.each(childRules, (schema, key) => {
-				// console.log('==>>', ctx && ctx[key], key);
 				let schemaErrors = schema.validate(ctx && ctx[key], options, key)
 				
 				errors = errors.concat(schemaErrors);
