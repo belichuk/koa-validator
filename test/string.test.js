@@ -77,12 +77,28 @@ describe('String validation:', () => {
 	});
 	
 	it('It should be invalid when string field is not set but long validation', () => {
-		debugger;
 		let errors = validate({fake: 'test'}, {uid: string().min(3).max(10)}, options);
+		
 		expect(errors).toBeArray();
 		expect(errors.length).toBe(1);
 		expect(errors[0].field).toBe('uid');
 		expect(errors[0].value).toBe(void(0));
+	});
+	
+	it('It should be an error when max string length is greater than allowed', () => {
+		let errors = validate({uid: '123-456-789'}, {uid: string().max(10)}, options);
+		
+		expect(errors).toBeArray();
+		expect(errors.length).toBe(1);
+		expect(errors[0].field).toBe('uid');
+		expect(errors[0].value).toBe('123-456-789');
+	});
+	
+	it('It should be correct when max string length is less than allowed', () => {
+		let errors = validate({uid: '0123456789'}, {uid: string().max(10)}, options);
+		
+		expect(errors).toBeArray();
+		expect(errors.length).toBe(0);
 	});
 	
 	it('It should be valid if the length of the string matches', () => {
