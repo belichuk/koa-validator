@@ -11,7 +11,6 @@
     "url": "git+ssh://git@github.com/belichuk/koa-validator.git"
   },
   "keywords": [
-    "koa",
     "validator"
   ],
   "author": "Nikolay Belichuk",
